@@ -25,7 +25,7 @@ def move_character(key_press, duration, action='walking'):
   pt.keyUp(key_press)
 
 def locate_lava():
-  position = pt.locateCenterOnScreen('images/lava.png', confidence=.5):
+  position = pt.locateCenterOnScreen('images/lava.png', confidence=.5)
 
   if position is None:
     return False
