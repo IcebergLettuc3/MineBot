@@ -35,14 +35,15 @@ def locate_lava():
     return True
   
 sleep(3)
-nav_to_image('images/start_game.png', 3)
+# nav_to_image('images/start_game.png', 3)
 
 duration =10
 while duration != 0:
-  if not locate_lava():
-    move_character('w',2,'attack')
-  else:
-    break
+  # if not locate_lava():
+  #   move_character('w',2,'attack')
+  # else:
+  #   break
+  move_character(',', 2, 'attack')
 
   duration -= 1
   print('loops remaning: ', duration)
