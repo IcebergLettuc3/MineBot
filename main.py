@@ -1,5 +1,7 @@
 import pyautogui as pt
 from time import sleep
+import subprocess
+import os
 
 def nav_to_image(image, clicks, off_x=0, off_y=0):
   position = pt.locateCenterOnScreen(image, confidence=0.9)
@@ -34,8 +36,15 @@ def locate_lava():
     print('found lava')
     return True
   
-sleep(3)
+sleep(10)
 # nav_to_image('images/start_game.png', 3)
+
+#open minecraft launcher
+minecraft_path = os.getenv('')
+subprocess.Popen(minecraft_path)
+#start minecraft
+pt.moveTo(pt.locateCenterOnScreen('images/play.png', confidence=.9), duration=.1)
+pt.click()
 
 duration =10
 while duration != 0:
