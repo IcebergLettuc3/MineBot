@@ -46,12 +46,25 @@ minecraft_launcher_path = os.getenv('MINECRAFTLAUNCHERPATH')
 print("path: ",minecraft_launcher_path)
 subprocess.Popen(minecraft_launcher_path)
 #wait for launcher to finish loading
-sleep(20)
+sleep(2)
 #start minecraft
-pt.moveTo(pt.locateCenterOnScreen(r'C:\Users\jeise\repos\MineBot\images\play.png', confidence=.7), duration=.1)
-pt.click()
+try:
+    # Locate the center of the image on screen
+    location = pt.locateCenterOnScreen('MineBot\images\play.png', confidence=0.7)
+    
+    if location is not None:
+        # Move to the location and click
+        pt.moveTo(location, duration=0.1)
+        pt.click()
+    else:
+        print("Image not found on the screen.")
+except Exception as e:
+    print(f"An error occurred: {e}")
 
-duration =10
+# pt.moveTo(pt.locateCenterOnScreen('images/play.png', confidence=.7), duration=.1)
+# pt.click()
+
+duration =0
 while duration != 0:
   # if not locate_lava():
   #   move_character('w',2,'attack')
