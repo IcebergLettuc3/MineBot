@@ -46,9 +46,9 @@ minecraft_launcher_path = os.getenv('MINECRAFTLAUNCHERPATH')
 print("path: ",minecraft_launcher_path)
 subprocess.Popen(minecraft_launcher_path)
 #wait for launcher to finish loading
-sleep(10)
+sleep(20)
 #start minecraft
-pt.moveTo(pt.locateCenterOnScreen('./images/play.png', confidence=.9), duration=.1)
+pt.moveTo(pt.locateCenterOnScreen(r'C:\Users\jeise\repos\MineBot\images\play.png', confidence=.7), duration=.1)
 pt.click()
 
 duration =10
