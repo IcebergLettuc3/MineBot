@@ -40,20 +40,25 @@ def locate_lava():
     print('found lava')
     return True
   
+
+def main():
+  print("main")
+  load_dotenv()
+  minecraft_launcher_path = os.getenv('MINECRAFTLAUNCHERPATH')
+  # subprocess.Popen(minecraft_launcher_path) #start minecraft
+
+def launch_game():
+
 # sleep(10)
 # nav_to_image('images/start_game.png', 3)
 
-print("Working dir:", os.getcwd())
-print("Files in here:", os.listdir("."))
+# print("Working dir:", os.getcwd())
+# print("Files in here:", os.listdir("."))
 
 #open minecraft launcher
-load_dotenv()
-minecraft_launcher_path = os.getenv('MINECRAFTLAUNCHERPATH')
-print("path: ",minecraft_launcher_path)
-subprocess.Popen(minecraft_launcher_path)
 #wait for launcher to finish loading
 # sleep(2)
-image_path = 'MineBot\ play.png'
+image_path = 'MineBot\images\play.png'
 img = Image.open(image_path)
 img2 = cv2.imread(image_path)
 plt.imshow(img)
@@ -61,7 +66,6 @@ plt.axis('off')  # Turn off axis numbers
 # plt.show()
 #start minecraft
 try:
-  # print("test")
   # Locate the center of the image on screen
   location = pt.locateCenterOnScreen(img2, confidence=0.7)
   print("location: ", location)
@@ -88,3 +92,8 @@ while duration != 0:
 
   duration -= 1
   print('loops remaning: ', duration)
+
+
+
+if __name__ == "__main__":
+  main()
