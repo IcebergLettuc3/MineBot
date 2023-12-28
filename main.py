@@ -43,57 +43,43 @@ def locate_lava():
 
 def main():
   print("main")
+  duration = 0
+  while duration != 0:
+    # if not locate_lava():
+    #   move_character('w',2,'attack')
+    # else:
+    #   break
+    move_character(',', 2, 'attack')
+
+    duration -= 1
+    print('loops remaning: ', duration)
+
+def start_game():
   load_dotenv()
   minecraft_launcher_path = os.getenv('MINECRAFTLAUNCHERPATH')
   # subprocess.Popen(minecraft_launcher_path) #start minecraft
+  #wait for launcher to finish loading
+  # sleep(2)
+  image_path = 'MineBot\images\play.png'
+  img = Image.open(image_path)
+  img2 = cv2.imread(image_path)
+  plt.imshow(img)
+  plt.axis('off')  # Turn off axis numbers
 
-def launch_game():
+  #start minecraft
+  try:
+    # Locate the center of the image on screen
+    location = pt.locateCenterOnScreen(img2, confidence=0.7)
+    print("location: ", location)
 
-# sleep(10)
-# nav_to_image('images/start_game.png', 3)
-
-# print("Working dir:", os.getcwd())
-# print("Files in here:", os.listdir("."))
-
-#open minecraft launcher
-#wait for launcher to finish loading
-# sleep(2)
-image_path = 'MineBot\images\play.png'
-img = Image.open(image_path)
-img2 = cv2.imread(image_path)
-plt.imshow(img)
-plt.axis('off')  # Turn off axis numbers
-# plt.show()
-#start minecraft
-try:
-  # Locate the center of the image on screen
-  location = pt.locateCenterOnScreen(img2, confidence=0.7)
-  print("location: ", location)
-    
-  if location is not None:
-    print("image found")
-    pt.moveTo(location, duration=0.1)
-    pt.click()
-  else:
-    print("Image not found on the screen.")
-except Exception as e:
-  print(f"An error occurred: {e}")
-
-# pt.moveTo(pt.locateCenterOnScreen('images/play.png', confidence=.7), duration=.1)
-# pt.click()
-
-duration = 0
-while duration != 0:
-  # if not locate_lava():
-  #   move_character('w',2,'attack')
-  # else:
-  #   break
-  move_character(',', 2, 'attack')
-
-  duration -= 1
-  print('loops remaning: ', duration)
-
-
+    if location is not None:
+      print("image found")
+      pt.moveTo(location, duration=0.1)
+      pt.click()
+    else:
+      print("Image not found on the screen.")
+  except Exception as e:
+    print(f"An error occurred: {e}")
 
 if __name__ == "__main__":
   main()
