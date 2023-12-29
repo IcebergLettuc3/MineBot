@@ -40,7 +40,25 @@ def locate_lava():
     move_character('s', 2)
     print('found lava')
     return True
-  
+
+def click_on_head(head_img = ""):
+  try:
+    # image_path = r'MineBot\images\play.png'
+    # img = Image.open(image_path)
+    img2 = cv2.imread(head_img)
+    img2 = cv2.cvtColor(img2, cv2.COLOR_BGR2RGB)
+    # Locate the center of the image on screen
+    location = pt.locateCenterOnScreen(img2, confidence=0.7)
+    print("location: ", location)
+
+    if location is not None:
+      print("image found")
+      pt.moveTo(location, duration=0.1)
+      pt.click()
+    else:
+      print("Image not found on the screen.")
+  except Exception as e:
+    print(f"An error occurred: {e}")
 
 def main():
   start_game()
@@ -61,32 +79,14 @@ def start_game():
   subprocess.Popen(minecraft_launcher_path) #start minecraft
   #wait for launcher to finish loading
   sleep(20)
-  
-
+  click_on_head(r'MineBot\images\play.png')
   #start minecraft
-  try:
-    image_path = r'MineBot\images\play.png'
-    # img = Image.open(image_path)
-    img2 = cv2.imread(image_path)
-    img2 = cv2.cvtColor(img2, cv2.COLOR_BGR2RGB)
-    # Locate the center of the image on screen
-    location = pt.locateCenterOnScreen(img2, confidence=0.7)
-    print("location: ", location)
-
-    if location is not None:
-      print("image found")
-      pt.moveTo(location, duration=0.1)
-      pt.click()
-    else:
-      print("Image not found on the screen.")
-  except Exception as e:
-    print(f"An error occurred: {e}")
+  
   
   sleep(20)
   pt.hotkey('win', 'up') #maximize screen
 
-  try:
-    img cv2.imread(r'')
+  # click_on_head("")
 
 if __name__ == "__main__":
   main()
