@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 import matplotlib.pyplot as plt
 from PIL import Image
 import cv2
+# import tkinter as tk
 
 def nav_to_image(image, clicks, off_x=0, off_y=0):
   position = pt.locateCenterOnScreen(image, confidence=0.9)
@@ -57,22 +58,17 @@ def main():
 def start_game():
   load_dotenv()
   minecraft_launcher_path = os.getenv('MINECRAFTLAUNCHERPATH')
-  # subprocess.Popen(minecraft_launcher_path) #start minecraft
+  subprocess.Popen(minecraft_launcher_path) #start minecraft
   #wait for launcher to finish loading
-  # sleep(20)
-  image_path = r'MineBot\images\play.png'
-  img = Image.open(image_path)
-  img2 = cv2.imread(image_path)
-  img2 = cv2.cvtColor(img2, cv2.COLOR_BGR2RGB)
-  # plt.imshow(img2)
-  # plt.axis('off')  # Turn off axis numbers
-  # plt.show()  # Display the image
-  # plt.imshow(img)
-  # plt.axis('off')  # Turn off axis numbers
-  # plt.show()
+  sleep(20)
+  
 
   #start minecraft
   try:
+    image_path = r'MineBot\images\play.png'
+    # img = Image.open(image_path)
+    img2 = cv2.imread(image_path)
+    img2 = cv2.cvtColor(img2, cv2.COLOR_BGR2RGB)
     # Locate the center of the image on screen
     location = pt.locateCenterOnScreen(img2, confidence=0.7)
     print("location: ", location)
@@ -85,6 +81,12 @@ def start_game():
       print("Image not found on the screen.")
   except Exception as e:
     print(f"An error occurred: {e}")
+  
+  sleep(20)
+  pt.hotkey('win', 'up') #maximize screen
+
+  try:
+    img cv2.imread(r'')
 
 if __name__ == "__main__":
   main()
