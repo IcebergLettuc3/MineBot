@@ -61,19 +61,6 @@ def click_on_head(head_img = "", con = 0.7, wait = 0):
     print(f"An error occurred: {e}")
   sleep(wait)
 
-def main():
-  start_game()
-  duration = 0
-  while duration != 0:
-    # if not locate_lava():
-    #   move_character('w',2,'attack')
-    # else:
-    #   break
-    move_character(',', 2, 'attack')
-
-    duration -= 1
-    print('loops remaning: ', duration)
-
 def start_game():
   load_dotenv()
   minecraft_launcher_path = os.getenv('MINECRAFTLAUNCHERPATH')
@@ -93,8 +80,25 @@ def start_game():
   click_on_head(r'MineBot\images\direct_connection.png', 0.8, 1)
   click_on_head(r'MineBot\images\server_address.png', 0.7, 1)
   server_address = os.getenv('SERVER_ADDRESS')
+  for i in range(50):
+    pt.keyDown('backspace')
+  # sleep(5)
+  pt.keyUp('backspace')
   pt.write(server_address)
   click_on_head(r'MineBot\images\join_server.png', 0.8)
+
+def main():
+  start_game()
+  duration = 0
+  while duration != 0:
+    if not locate_lava():
+      move_character('.',2,'attack')
+    else:
+      break
+    move_character('e', 2, 'attack')
+
+    duration -= 1
+    print('loops remaning: ', duration)
 
 if __name__ == "__main__":
   main()
