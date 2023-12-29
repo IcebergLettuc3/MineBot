@@ -42,7 +42,7 @@ def locate_lava():
   
 
 def main():
-  print("main")
+  start_game()
   duration = 0
   while duration != 0:
     # if not locate_lava():
@@ -59,12 +59,17 @@ def start_game():
   minecraft_launcher_path = os.getenv('MINECRAFTLAUNCHERPATH')
   # subprocess.Popen(minecraft_launcher_path) #start minecraft
   #wait for launcher to finish loading
-  # sleep(2)
-  image_path = 'MineBot\images\play.png'
+  # sleep(20)
+  image_path = r'MineBot\images\play.png'
   img = Image.open(image_path)
   img2 = cv2.imread(image_path)
-  plt.imshow(img)
-  plt.axis('off')  # Turn off axis numbers
+  img2 = cv2.cvtColor(img2, cv2.COLOR_BGR2RGB)
+  # plt.imshow(img2)
+  # plt.axis('off')  # Turn off axis numbers
+  # plt.show()  # Display the image
+  # plt.imshow(img)
+  # plt.axis('off')  # Turn off axis numbers
+  # plt.show()
 
   #start minecraft
   try:
