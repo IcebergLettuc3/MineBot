@@ -41,14 +41,14 @@ def locate_lava():
     print('found lava')
     return True
 
-def click_on_head(head_img = ""):
+def click_on_head(head_img = "", con = 0.7, wait = 0):
   try:
     # image_path = r'MineBot\images\play.png'
     # img = Image.open(image_path)
     img2 = cv2.imread(head_img)
     img2 = cv2.cvtColor(img2, cv2.COLOR_BGR2RGB)
     # Locate the center of the image on screen
-    location = pt.locateCenterOnScreen(img2, confidence=0.7)
+    location = pt.locateCenterOnScreen(img2, confidence=con)
     print("location: ", location)
 
     if location is not None:
@@ -59,6 +59,7 @@ def click_on_head(head_img = ""):
       print("Image not found on the screen.")
   except Exception as e:
     print(f"An error occurred: {e}")
+  sleep(wait)
 
 def main():
   start_game()
@@ -85,8 +86,15 @@ def start_game():
   
   sleep(20)
   pt.hotkey('win', 'up') #maximize screen
+  sleep(1)
 
-  # click_on_head("")
+  click_on_head(r'MineBot\images\multiplayer.png', 0.8, 1)
+  # sleep(1)
+  click_on_head(r'MineBot\images\direct_connection.png', 0.8, 1)
+  click_on_head(r'MineBot\images\server_address.png', 0.7, 1)
+  server_address = os.getenv('SERVER_ADDRESS')
+  pt.write(server_address)
+  click_on_head(r'MineBot\images\join_server.png', 0.8)
 
 if __name__ == "__main__":
   main()
