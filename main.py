@@ -125,11 +125,11 @@ def main():
   duration = 5
   while duration != 0:
     print("Operating, durration:", duration)
-    if not locate_img(img_path = r'MineBot\\images\\lava.png'):
+    if not locate_img(img_path = r'MineBot\images\lava.png'):
       move_character('.',2,'attack')
     else:
       break
-  move_character('e', 2, 'attack')
+    move_character('e', 2, 'attack')
 
     duration -= 1
     print('loops remaning: ', duration)
