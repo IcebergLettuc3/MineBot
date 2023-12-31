@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 import matplotlib.pyplot as plt
 from PIL import Image
 import cv2
+import win32gui
 # import tkinter as tk
 
 def nav_to_image(image, clicks, off_x=0, off_y=0, max_wait=20):
@@ -36,7 +37,7 @@ def move_character(key_press, duration, action='walking'):
   pt.keyUp(key_press)
 
 def locate_lava():
-  position = pt.locateCenterOnScreen('images/lava.png', confidence=.5)
+  position = pt.locateCenterOnScreen('MineBot\images\lava.png', confidence=.5)
 
   if position is None:
     return False
@@ -69,6 +70,7 @@ def click_on_head(head_img = "", con = 0.7, wait = 0, attempts = 20):
     except Exception as e:
       print(f"An error occurred: {e}")
     attempts -= 1
+    sleep(0.5)
   sleep(wait)
 
 def start_game():
@@ -77,7 +79,12 @@ def start_game():
   minecraft_launcher_path = os.getenv('MINECRAFTLAUNCHERPATH')
   subprocess.Popen(minecraft_launcher_path) #start minecraft
   #wait for launcher to finish loading
-  sleep(20)
+  sleep(10)
+  # subprocess.Popen(['wmctrl', '-r', 'Minecraft Launcher', '-e', '0,0,0,-1,-1'])
+  # # Get the window
+  # move_launcher_to_primary_window()
+  win32gui.EnumWindows(enumHandler,'Minecraft Launcher')
+  sleep(1)
   print("click play button")
   click_on_head(r'MineBot\images\play.png')
   #start minecraft
@@ -99,8 +106,16 @@ def start_game():
   pt.write(server_address)
   click_on_head(r'MineBot\images\join_server.png', 0.8)
 
+
+def enumHandler(hwnd, lParam):
+  if win32gui.IsWindowVisible(hwnd):
+    # if 'Minecraft Launcher' in win32gui.GetWindowText(hwnd):
+    if win32gui.GetWindowText(hwnd) == lParam:
+      win32gui.MoveWindow(hwnd, 0, 0, 1920, 1080, True)
+
 def main():
-  start_game()
+  # start_game()
+  sleep(10) #line used when testing without start game running
   duration = 10
   while duration != 0:
     print("Operating, durration:", duration)
