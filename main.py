@@ -36,15 +36,20 @@ def move_character(key_press, duration, action='walking'):
   pt.keyUp('x')
   pt.keyUp(key_press)
 
-def locate_lava():
-  position = pt.locateCenterOnScreen('MineBot\images\lava.png', confidence=.5)
+def locate_img(img_path = ""):
+  try:
+    img = cv2.imread(img_path)
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+    position = pt.locateCenterOnScreen(img, confidence=.5)
 
-  if position is None:
-    return False
-  else:
-    move_character('s', 2)
-    print('found lava')
-    return True
+    if position is None:
+      return False
+    else:
+      move_character('s', 2)
+      print('found lava')
+      return True
+  except Exception as e:
+    print(f"An error occurred: {e}")
 
 def click_on_head(head_img = "", con = 0.7, wait = 0, attempts = 20):
   print("locating image")
@@ -115,15 +120,16 @@ def enumHandler(hwnd, lParam):
 
 def main():
   # start_game()
-  sleep(10) #line used when testing without start game running
-  duration = 10
+  sleep(5) #line used when testing without start game running
+  print("begin automation")
+  duration = 5
   while duration != 0:
     print("Operating, durration:", duration)
-    if not locate_lava():
+    if not locate_img(img_path = r'MineBot\\images\\lava.png'):
       move_character('.',2,'attack')
     else:
       break
-    move_character('e', 2, 'attack')
+  move_character('e', 2, 'attack')
 
     duration -= 1
     print('loops remaning: ', duration)
