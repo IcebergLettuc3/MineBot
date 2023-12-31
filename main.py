@@ -8,8 +8,12 @@ from PIL import Image
 import cv2
 # import tkinter as tk
 
-def nav_to_image(image, clicks, off_x=0, off_y=0):
-  position = pt.locateCenterOnScreen(image, confidence=0.9)
+def nav_to_image(image, clicks, off_x=0, off_y=0, max_wait=20):
+  while max_wait > 0 and position is not None:
+    print("searching count down", max_wait)
+    position = pt.locateCenterOnScreen(image, confidence=0.9)
+    max_wait -= 1
+    sleep(1)
 
   if position is None:
     print(f'{image} not found')
@@ -41,32 +45,40 @@ def locate_lava():
     print('found lava')
     return True
 
-def click_on_head(head_img = "", con = 0.7, wait = 0):
-  try:
-    # image_path = r'MineBot\images\play.png'
-    # img = Image.open(image_path)
-    img2 = cv2.imread(head_img)
-    img2 = cv2.cvtColor(img2, cv2.COLOR_BGR2RGB)
-    # Locate the center of the image on screen
-    location = pt.locateCenterOnScreen(img2, confidence=con)
-    print("location: ", location)
+def click_on_head(head_img = "", con = 0.7, wait = 0, attempts = 20):
+  print("locating image")
+  location = None
+  while attempts > 0:
+    print("search count down", attempts)
+    try:
+      # image_path = r'MineBot\images\play.png'
+      # img = Image.open(image_path)
+      img2 = cv2.imread(head_img)
+      img2 = cv2.cvtColor(img2, cv2.COLOR_BGR2RGB)
+      # Locate the center of the image on screen
+      location = pt.locateCenterOnScreen(img2, confidence=con)
+      print("location: ", location)
 
-    if location is not None:
-      print("image found")
-      pt.moveTo(location, duration=0.1)
-      pt.click()
-    else:
-      print("Image not found on the screen.")
-  except Exception as e:
-    print(f"An error occurred: {e}")
+      if location is not None:
+        print("image found")
+        pt.moveTo(location, duration=0.1)
+        pt.click()
+        break
+      else:
+        print("Image not found on the screen.")
+    except Exception as e:
+      print(f"An error occurred: {e}")
+    attempts -= 1
   sleep(wait)
 
 def start_game():
   load_dotenv()
+  print("start launcher")
   minecraft_launcher_path = os.getenv('MINECRAFTLAUNCHERPATH')
   subprocess.Popen(minecraft_launcher_path) #start minecraft
   #wait for launcher to finish loading
   sleep(20)
+  print("click play button")
   click_on_head(r'MineBot\images\play.png')
   #start minecraft
   
@@ -89,8 +101,9 @@ def start_game():
 
 def main():
   start_game()
-  duration = 0
+  duration = 10
   while duration != 0:
+    print("Operating, durration:", duration)
     if not locate_lava():
       move_character('.',2,'attack')
     else:
@@ -99,6 +112,7 @@ def main():
 
     duration -= 1
     print('loops remaning: ', duration)
+  print("Automation Complete")
 
 if __name__ == "__main__":
   main()
